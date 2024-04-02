@@ -1,0 +1,40 @@
+{
+  "name": "prisma-generator-garph",
+  "version": "0.0.1",
+  "license": "Apache-2.0",
+  "description": "Garph generator for prisma schema",
+  "author": {
+    "name": "m1212e"
+  },
+  "keywords": [
+    "prisma2",
+    "prisma",
+    "prisma-generator",
+    "prisma-schema",
+    "code-generation",
+    "garph",
+    "garph-generator",
+    "prisma-generator-garph"
+  ],
+  "homepage": "https://github.com/m1212e/prisma-generator-garph",
+  "repository": {
+    "url": "https://github.com/m1212e/prisma-generator-garph.git"
+  },
+  "dependencies": {
+    "@prisma/generator-helper": "^5.10.2",
+    "prettier": "^3.2.5"
+  },
+  "devDependencies": {
+    "@prisma/client": "5.10.2",
+    "@types/bun": "latest",
+    "esbuild": "^0.20.1",
+    "garph": "^0.6.8",
+    "prisma": "5.10.2",
+    "typescript": "^5.4.2"
+  },
+  "scripts": {
+    "dev": "bun run build && bunx prisma generate",
+    "build": "bun run typecheck && bun build.ts",
+    "typecheck": "tsc --noEmit"
+  }
+}

@@ -1,0 +1,23 @@
+name: Build client
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  test_and_build:
+    name: Build client
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: oven-sh/setup-bun@v1
+      - name: Install dependencies
+        run: bun i
+      - name: Run build
+        run: bun run build
+        env:
+          REF_NAME: ${{ github.ref_name }}
+      - uses: JS-DevTools/npm-publish@v3
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+          package: ./dist/package.json
