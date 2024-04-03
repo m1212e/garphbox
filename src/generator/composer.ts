@@ -1,5 +1,6 @@
 import type { Models } from "../util/modelMap";
 import { GarphImportStatement } from "./garphInstance";
+import { anyVariableName, dateVariableName } from "./staticTypes";
 
 export function Compose(models: Models) {
   let ret = `${GarphImportStatement()}`;
@@ -20,6 +21,9 @@ export function Compose(models: Models) {
       }
     }
   }
+
+  importSet.add(anyVariableName);
+  importSet.add(dateVariableName);
 
   ret += `${Array.from(importSet)
     .map((t) => `import { ${t} } from "./${t}"`)

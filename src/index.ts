@@ -10,6 +10,12 @@ import {
 } from "./generator/garphInstance";
 import { emptyModels, mergeModels, type Models } from "./util/modelMap";
 import { Compose } from "./generator/composer";
+import {
+  AnyType,
+  DateType,
+  anyVariableName,
+  dateVariableName,
+} from "./generator/staticTypes";
 
 generatorHandler({
   onManifest() {
@@ -138,6 +144,14 @@ generatorHandler({
           await format(Compose(new Map([p])))
         );
       }),
+      writeFile(
+        join(outputDirectory, `${dateVariableName}.ts`),
+        await format(DateType())
+      ),
+      writeFile(
+        join(outputDirectory, `${anyVariableName}.ts`),
+        await format(AnyType())
+      ),
     ]);
   },
 });

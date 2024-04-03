@@ -2,6 +2,7 @@ import type { DMMF } from "@prisma/generator-helper";
 import { garphImportVariableName } from "./garphInstance";
 import { Annotation, parseDocumentation } from "./documentation";
 import type { Model as ModelType } from "../util/modelMap";
+import { anyVariableName, dateVariableName } from "./staticTypes";
 
 export function Model(
   data: Pick<DMMF.Model, "fields" | "documentation" | "name">
@@ -27,7 +28,7 @@ export function Model(
         });
       }
       referencedTypes.push(field.type);
-      
+
       return RelationField({
         name: field.name,
         fieldType: field.type,
@@ -97,15 +98,9 @@ export function PrimitiveField({
   } else if (fieldType === "String") {
     ret += ".string()";
   } else if (["DateTime", "Date"].includes(fieldType)) {
-    ret += `.ref(${garphImportVariableName}.scalarType<Date, number>('Date', {
-      serialize: (value) => value.getTime(),
-      parseValue: (value) => new Date(value)
-    }))`;
+    ret += `.ref(() => ${dateVariableName})`;
   } else if (fieldType === "Json") {
-    ret += `.ref(${garphImportVariableName}.scalarType<any, any>('Any', {
-      serialize: (value) => JSON.stringify(value),
-      parseValue: (value) => JSON.parse(value)
-    }))`;
+    ret += `.ref(() => ${anyVariableName})`;
   } else if (fieldType === "Boolean") {
     ret += ".boolean()";
   } else throw new Error("Invalid type for primitive generation");
